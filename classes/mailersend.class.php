@@ -218,6 +218,8 @@ class MailsterMailerSend {
 
 		$verified = mailster_option( 'mailersend_verified' );
 
+		$this->maybe_create_webhooks();
+
 		include $this->plugin_path . '/views/settings.php';
 
 	}
@@ -231,12 +233,6 @@ class MailsterMailerSend {
 	}
 
 
-	/**
-	 *
-	 * @access public
-	 * @param unknown $apikey  (optional)
-	 * @return void
-	 */
 	private function do_call( $method, $endpoint, $args = array(), $timeout = 15 ) {
 
 		$args                = wp_parse_args( $args, array() );
@@ -275,7 +271,7 @@ class MailsterMailerSend {
 		$code = wp_remote_retrieve_response_code( $response );
 		$body = wp_remote_retrieve_body( $response );
 
-		if ( 202 != $code && 200 != $code ) {
+		if ( 202 != $code && 201 != $code && 200 != $code ) {
 			$body = json_decode( $body );
 			if ( isset( $body->errors ) ) {
 				$message = '';
@@ -286,8 +282,11 @@ class MailsterMailerSend {
 				$message = wp_remote_retrieve_response_message( $response );
 			}
 			return new WP_Error( $code, $message );
-		} elseif ( 'GET' == $method ) {
+		} else {
 			$body = json_decode( $body );
+			if ( ! empty( $body ) && 'POST' == $method ) {
+				return new WP_Error( $body->warnings[0]->type, $body->warnings[0]->message, $body->warnings[0]->recipients );
+			}
 		}
 
 		return $body;
@@ -339,25 +338,6 @@ class MailsterMailerSend {
 
 	}
 
-	/**
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function get_subaccounts() {
-
-		$response = $this->do_get( 'subaccounts' );
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
-
-		$accounts = $response->results;
-
-		return $accounts;
-
-	}
-
 
 
 	/**
@@ -381,8 +361,6 @@ class MailsterMailerSend {
 				wp_schedule_event( time(), 'mailster_cron_interval', 'mailster_mailersend_cron' );
 			}
 
-			$this->maybe_create_webhooks();
-
 			if ( $old_apikey != $options['mailersend_apikey'] || ! $options['mailersend_verified'] || $old_delivery_method != 'mailersend' ) {
 				$response = $this->verify( $options['mailersend_apikey'] );
 
@@ -401,20 +379,23 @@ class MailsterMailerSend {
 
 
 
-	public function maybe_create_webhooks() {
+	public function maybe_create_webhooks( $token = null ) {
 
-		$domain_id = mailster_option( 'mailersend_domain' );
-		$key       = mailster_option( 'mailersend_key' );
-
-		if ( ! $domain_id ) {
+		if ( mailster_is_local() ) {
 			return;
 		}
-		if ( ! $key ) {
+		if ( $key = mailster_option( 'mailersend_key' ) ) {
+			return;
+		}
+		if ( ! ( $domain_id = mailster_option( 'mailersend_domain' ) ) ) {
+			return;
+		}
+		if ( ! ( $verified  = mailster_option( 'mailersend_verified' ) ) ) {
 			return;
 		}
 
 		$response = $this->do_get( 'webhooks', array( 'domain_id' => $domain_id ) );
-		$endpoint = add_query_arg( array( 'mailster_mailersend' => $key ), home_url( '/' ) );
+		$endpoint = add_query_arg( array( 'mailster_mailersend' => '' ), home_url( '/' ) );
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
@@ -430,16 +411,34 @@ class MailsterMailerSend {
 			$found = $hook;
 		}
 
+		if ( $found ) {
+			$url   = $found->url;
+			$query = parse_url( $found->url, PHP_URL_QUERY );
+			parse_str( $query, $data );
+			if ( isset( $data['mailster_mailersend'] ) ) {
+				$key = $data['mailster_mailersend'];
+			} else {
+				$found = null;
+			}
+		}
+
 		if ( ! $found ) {
+			$key      = md5( uniqid() );
 			$args     = array(
-				'url'       => add_query_arg( array( 't' => time() ), $endpoint ),
+				'url'       => add_query_arg( array( 'mailster_mailersend' => $key ), $endpoint ),
 				'name'      => 'Mailster (' . preg_replace( '/^https?:\/\//', '', home_url() ) . ')',
 				'events'    => array( 'activity.soft_bounced', 'activity.hard_bounced', 'activity.unsubscribed', 'activity.spam_complaint' ),
 				'enabled'   => true,
 				'domain_id' => $domain_id,
 			);
 			$response = $this->do_post( 'webhooks', $args );
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			}
 		}
+
+		mailster_update_option( 'mailersend_key', $key );
+
 	}
 
 
@@ -448,7 +447,7 @@ class MailsterMailerSend {
 		if ( mailster_option( 'mailersend_key' ) == $_GET['mailster_mailersend'] && $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 			if ( ! ( $data = file_get_contents( 'php://input' ) ) ) {
-				wp_die( 'This page handles the Bounces and messages from Amazon SNS for Mailster.', 'Mailster Amazon SNS Endpoint' );
+				wp_die( 'This page handles the Bounces and messages from MailerSend for Mailster.', 'Mailster MailerSend Endpoint' );
 			}
 
 			$obj = json_decode( $data );
@@ -514,8 +513,8 @@ class MailsterMailerSend {
 
 
 	public function subscriber_errors( $errors ) {
-		$errors[] = 'Message generation rejected';
-		$errors[] = '\'to\' parameter is not a valid address. please check documentation';
+		$errors[] = 'All of the recipients provided have been suppressed.';
+		$errors[] = 'Some of the recipients have been suppressed.';
 		return $errors;
 	}
 
@@ -532,7 +531,7 @@ class MailsterMailerSend {
 	public function section_tab_bounce() {
 
 		?>
-		<div class="error inline"><p><strong><?php _e( 'Bouncing is handled by MailerSend so all your settings will be ignored', 'mailster-mailersend' ); ?></strong></p></div>
+		<div class="error inline"><p><strong><?php esc_html_e( 'Bouncing is handled by MailerSend so all your settings will be ignored', 'mailster-mailersend' ); ?></strong></p></div>
 
 		<?php
 	}
@@ -567,7 +566,7 @@ class MailsterMailerSend {
 
 		if ( function_exists( 'mailster' ) ) {
 
-			mailster_notice( sprintf( __( 'Change the delivery method on the %s!', 'mailster-mailersend' ), '<a href="edit.php?post_type=newsletter&page=mailster_settings&mailster_remove_notice=delivery_method#delivery">' . __( 'Settings Page', 'mailster-mailersend' ) . '</a>' ), '', false, 'delivery_method' );
+			mailster_notice( sprintf( __( 'Change the delivery method on the %s!', 'mailster-mailersend' ), '<a href="edit.php?post_type=newsletter&page=mailster_settings&mailster_remove_notice=delivery_method#delivery">' . __( 'Settings Page', 'mailster-mailersend' ) . '</a>' ), '', 360, 'delivery_method' );
 
 			$defaults = array(
 				'mailersend_apikey'   => '',
@@ -599,7 +598,7 @@ class MailsterMailerSend {
 		if ( function_exists( 'mailster' ) ) {
 			if ( mailster_option( 'deliverymethod' ) == 'mailersend' ) {
 				mailster_update_option( 'deliverymethod', 'simple' );
-				mailster_notice( sprintf( __( 'Change the delivery method on the %s!', 'mailster-mailersend' ), '<a href="edit.php?post_type=newsletter&page=mailster_settings&mailster_remove_notice=delivery_method#delivery">Settings Page</a>' ), '', false, 'delivery_method' );
+				mailster_notice( sprintf( __( 'Change the delivery method on the %s!', 'mailster-mailersend' ), '<a href="edit.php?post_type=newsletter&page=mailster_settings&mailster_remove_notice=delivery_method#delivery">Settings Page</a>' ), '', 360, 'delivery_method' );
 			}
 		}
 	}

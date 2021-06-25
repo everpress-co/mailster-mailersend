@@ -3,7 +3,7 @@ Contributors: everpress
 Tags: mailersend, mailster, deliverymethod, newsletter, mailsteresp, email
 Requires at least: 3.8
 Tested up to: 5.7
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 Author: EverPress
 Author URI: https://mailster.co
@@ -27,6 +27,9 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 1. Option Interface.
 
 == Changelog ==
+
+= 1.1 =
+* improvements on bounce methods and web hook creation
 
 = 1.0 =
 * initial release
