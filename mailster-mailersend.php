@@ -12,7 +12,7 @@ License: GPLv2 or later
 
 
 define( 'MAILSTER_MAILERSEND_VERSION', '1.1' );
-define( 'MAILSTER_MAILERSEND_REQUIRED_VERSION', '2.4' );
+define( 'MAILSTER_MAILERSEND_REQUIRED_VERSION', '3.0' );
 define( 'MAILSTER_MAILERSEND_FILE', __FILE__ );
 
 require_once dirname( __FILE__ ) . '/classes/mailersend.class.php';
