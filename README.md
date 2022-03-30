@@ -1,20 +1,19 @@
-=== Mailster MailerSend Integration ===
-Contributors: everpress
-Tags: mailersend, mailster, deliverymethod, newsletter, mailsteresp, email
-Requires at least: 3.8
-Tested up to: 5.9
-Stable tag: 1.1
-License: GPLv2 or later
-Author: EverPress
-Author URI: https://mailster.co
+# Mailster MailerSend Integration
 
-== Description ==
+Contributors: everpress  
+Tags: mailersend, mailster, deliverymethod, newsletter, mailsteresp, email  
+Requires at least: 3.8  
+Tested up to: 5.9  
+Stable tag: 1.1  
+License: GPLv2 or later
+
+## Description
 
 > This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme)
 
 Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme).
 
-== Installation ==
+## Installation
 
 1. Upload the entire `mailster-mailersend` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -22,18 +21,22 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 4. Enter your API Key and save the settings
 5. Send a testmail
 
-== Screenshots ==
+## Screenshots
 
-1. Option Interface.
+### 1. Option Interface.
 
-== Changelog ==
+[missing image]
 
-= 1.1 =
-* improvements on bounce methods and web hook creation
+## Changelog
 
-= 1.0 =
-* initial release
+### 1.1
 
-== Additional Info ==
+-   improvements on bounce methods and web hook creation
+
+### 1.0
+
+-   initial release
+
+## Additional Info
 
 This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme)
