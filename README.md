@@ -25,7 +25,7 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ### 1. Option Interface.
 
-[missing image]
+1. Option Interface.
 
 ## Changelog
 
