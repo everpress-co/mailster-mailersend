@@ -1,10 +1,10 @@
 # Mailster MailerSend Integration
 
-Contributors: everpress  
+Contributors: everpress, xaverb  
 Tags: mailersend, mailster, deliverymethod, newsletter, mailsteresp, email  
 Requires at least: 3.8  
-Tested up to: 5.9  
-Stable tag: 1.1  
+Tested up to: 6.0  
+Stable tag: 1.1.1  
 License: GPLv2 or later
 
 ## Description
@@ -23,11 +23,19 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ## Screenshots
 
+### ### 1. Option Interface.
+
+![Option Interface.](https://ps.w.org/mailster-mailersend/assets/screenshot-1.png)
+
 ### 1. Option Interface.
 
-[missing image]
+![Option Interface.](https://ps.w.org/mailster-mailersend/assets/screenshot-1.png)
 
 ## Changelog
+
+### 1.1.1
+
+-   fixed: issue with embedded images
 
 ### 1.1
 
