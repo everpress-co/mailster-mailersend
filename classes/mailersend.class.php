@@ -142,9 +142,9 @@ class MailsterMailerSend {
 					'filename' => $attachment[1],
 				);
 
-				if ( 'inline' == $attachment[6] ) {
-					$attachment_obj['id']                  = $attachment[1];
-					$mailobject->mailersend_object['html'] = str_replace( '"cid:' . $attachment[7] . '"', '"cid:' . $attachment[1] . '"', $mailobject->mailersend_object['html'] );
+				if ( 'inline' === $attachment[6] ) {
+					$attachment_obj['id'] = $attachment[7];
+					$attachment_obj['disposition'] = 'inline';
 				}
 				$mailobject->mailersend_object['attachments'][] = $attachment_obj;
 			}
