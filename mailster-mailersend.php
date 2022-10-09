@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Mailster MailerSend Integration
-Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=Mailster+MailerSend+Integration&utm_medium=plugin
+Plugin URI: https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=MailerSend
 Description: Uses MailerSend to deliver emails for the Mailster Newsletter Plugin for WordPress.
 Version: 1.1.1
 Author: EverPress

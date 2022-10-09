@@ -548,7 +548,7 @@ class MailsterMailerSend {
 		?>
 	<div id="message" class="error">
 	  <p>
-	   <strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=plugin">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
+	   <strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=MailerSend">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
 	  </p>
 	</div>
 		<?php
