@@ -9,9 +9,9 @@ License: GPLv2 or later
 
 ## Description
 
-> This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme)
+> This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=readme&utm_term=MailerSend)
 
-Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme).
+Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=readme&utm_term=MailerSend).
 
 ## Installation
 
@@ -33,6 +33,10 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ## Changelog
 
+### 1.1.2
+
+-   Do not handle soft bounces within the plugin but wait for a hard bounce
+
 ### 1.1.1
 
 -   fixed: issue with embedded images
@@ -47,4 +51,4 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ## Additional Info
 
-This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=readme)
+This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=readme&utm_term=MailerSend)

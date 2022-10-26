@@ -488,15 +488,12 @@ class MailsterMailerSend {
 				$index = null;
 			}
 
-			$hard_bounce = false;
 			switch ( $obj->type ) {
 				case 'rejected':
 					break;
 				case 'activity.hard_bounced':
-					$hard_bounce = true;
-				case 'activity.soft_bounced':
 					$reason = trim( '[' . $obj->data->morph->object . '] ' . $obj->data->morph->reason );
-					mailster( 'subscribers' )->bounce( $subscriber->ID, $campaign_id, $hard_bounce, $reason, $index );
+					mailster( 'subscribers' )->bounce( $subscriber->ID, $campaign_id, true, $reason, $index );
 					break;
 				case 'activity.unsubscribed':
 				case 'activity.spam_complaint':
@@ -548,7 +545,7 @@ class MailsterMailerSend {
 		?>
 	<div id="message" class="error">
 	  <p>
-	   <strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=MailerSend+integration+for+Mailster&utm_medium=plugin">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
+	   <strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=MailerSend">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
 	  </p>
 	</div>
 		<?php
