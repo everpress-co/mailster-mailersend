@@ -33,6 +33,10 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ## Changelog
 
+### 1.1.2
+
+-   Do not handle soft bounces within the plugin but wait for a hard bounce
+
 ### 1.1.1
 
 -   fixed: issue with embedded images
