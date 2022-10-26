@@ -488,15 +488,12 @@ class MailsterMailerSend {
 				$index = null;
 			}
 
-			$hard_bounce = false;
 			switch ( $obj->type ) {
 				case 'rejected':
 					break;
 				case 'activity.hard_bounced':
-					$hard_bounce = true;
-				case 'activity.soft_bounced':
 					$reason = trim( '[' . $obj->data->morph->object . '] ' . $obj->data->morph->reason );
-					mailster( 'subscribers' )->bounce( $subscriber->ID, $campaign_id, $hard_bounce, $reason, $index );
+					mailster( 'subscribers' )->bounce( $subscriber->ID, $campaign_id, true, $reason, $index );
 					break;
 				case 'activity.unsubscribed':
 				case 'activity.spam_complaint':
