@@ -4,6 +4,8 @@ class MailsterMailerSend {
 
 	private $plugin_path;
 	private $plugin_url;
+	private $domain;
+	private $apikey;
 
 	/**
 	 *
@@ -53,7 +55,6 @@ class MailsterMailerSend {
 				}
 			}
 		}
-
 	}
 
 
@@ -70,7 +71,6 @@ class MailsterMailerSend {
 
 		// MailerSend will handle DKIM integration
 		$mailobject->dkim = false;
-
 	}
 
 
@@ -143,7 +143,7 @@ class MailsterMailerSend {
 				);
 
 				if ( 'inline' === $attachment[6] ) {
-					$attachment_obj['id'] = $attachment[7];
+					$attachment_obj['id']          = $attachment[7];
 					$attachment_obj['disposition'] = 'inline';
 				}
 				$mailobject->mailersend_object['attachments'][] = $attachment_obj;
@@ -151,7 +151,6 @@ class MailsterMailerSend {
 		}
 
 		$mailobject->mailersend_object = apply_filters( 'mailster_mailersend_object', $mailobject->mailersend_object, $mailobject );
-
 	}
 
 
@@ -186,7 +185,6 @@ class MailsterMailerSend {
 		} else {
 			$mailobject->sent = true;
 		}
-
 	}
 
 
@@ -221,7 +219,6 @@ class MailsterMailerSend {
 		$this->maybe_create_webhooks();
 
 		include $this->plugin_path . '/views/settings.php';
-
 	}
 
 
@@ -290,7 +287,6 @@ class MailsterMailerSend {
 		}
 
 		return $body;
-
 	}
 
 
@@ -312,7 +308,6 @@ class MailsterMailerSend {
 		}
 
 		return $response;
-
 	}
 
 
@@ -335,7 +330,6 @@ class MailsterMailerSend {
 		$domains = $response->data;
 
 		return $domains;
-
 	}
 
 
@@ -438,7 +432,6 @@ class MailsterMailerSend {
 		}
 
 		mailster_update_option( 'mailersend_key', $key );
-
 	}
 
 
@@ -503,7 +496,6 @@ class MailsterMailerSend {
 					break;
 			}
 		}
-
 	}
 
 
@@ -544,9 +536,9 @@ class MailsterMailerSend {
 	public function notice() {
 		?>
 	<div id="message" class="error">
-	  <p>
-	   <strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=MailerSend">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
-	  </p>
+		<p>
+		<strong>MailerSend integration for Mailster</strong> requires the <a href="https://mailster.co/?utm_campaign=wporg&utm_source=wordpress.org&utm_medium=plugin&utm_term=MailerSend">Mailster Newsletter Plugin</a>, at least version <strong><?php echo MAILSTER_MAILERSEND_REQUIRED_VERSION; ?></strong>.
+		</p>
 	</div>
 		<?php
 	}
@@ -599,6 +591,4 @@ class MailsterMailerSend {
 			}
 		}
 	}
-
-
 }
