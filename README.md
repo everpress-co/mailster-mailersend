@@ -1,10 +1,10 @@
 # Mailster MailerSend Integration
 
-Contributors: everpress, xaverb  
+Contributors: everpress, mailster, xaverb  
 Tags: mailersend, mailster, deliverymethod, newsletter, mailsteresp, email  
-Requires at least: 3.8  
-Tested up to: 6.0  
-Stable tag: 1.1.2  
+Requires at least: 6.0  
+Tested up to: 6.5  
+Stable tag: 1.1.3  
 License: GPLv2 or later
 
 ## Description
@@ -23,31 +23,31 @@ Uses MailerSend to deliver emails for the [Mailster Newsletter Plugin for WordPr
 
 ## Screenshots
 
-### ### 1. Option Interface.
-
-![Option Interface.](https://ps.w.org/mailster-mailersend/assets/screenshot-1.png)
-
-### 1. Option Interface.
+### 1. Option Interface
 
 ![Option Interface.](https://ps.w.org/mailster-mailersend/assets/screenshot-1.png)
 
 ## Changelog
 
+### 1.1.3
+
+- fixed: waringin on PHP >8.1
+
 ### 1.1.2
 
--   Do not handle soft bounces within the plugin but wait for a hard bounce
+- Do not handle soft bounces within the plugin but wait for a hard bounce
 
 ### 1.1.1
 
--   fixed: issue with embedded images
+- fixed: issue with embedded images
 
 ### 1.1
 
--   improvements on bounce methods and web hook creation
+- improvements on bounce methods and web hook creation
 
 ### 1.0
 
--   initial release
+- initial release
 
 ## Additional Info
 
